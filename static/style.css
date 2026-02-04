@@ -1,0 +1,114 @@
+/* ──────────────────────────────────────────────
+   ELITE MINIMALIST THEME
+───────────────────────────────────────────────── */
+:root {
+  --elite-black: #0a0a0b;        /* Deep Midnight */
+  --elite-gold: #c5a059;         /* Muted Champagne Gold */
+  --elite-gold-light: #e2c999;
+  --elite-white: #f4f4f7;        /* Ivory Silk */
+  --elite-gray: #1c1c1e;         /* Gunmetal Gray */
+  --royal-border: 1px solid rgba(197, 160, 89, 0.3);
+}
+/* Ensure content sits above the particles */
+.hero, .hero-content, .tools, .container, .navbar {
+    position: relative;
+    z-index: 2;
+}
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #05050a; /* Darkest obsidian */
+    z-index: -1;
+    /* This creates the 'Glitter' bloom effect */
+    filter: drop-shadow(0 0 5px #00f0ff) contrast(1.5);
+}
+
+/* Ensure your UI elements stay sharp above the glow */
+.hero, .navbar, .tool-sidebar {
+    position: relative;
+    z-index: 10;
+    background: transparent !important;
+}
+/* Ensure background is dark enough for neon to pop */
+body {
+    background-color: #05050f; 
+}
+body {
+  background-color: var(--elite-black);
+  color: var(--elite-white);
+  font-family: 'Playfair Display', serif; /* Elite Serif Font */
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* Elite Navigation */
+.navbar {
+  background: rgba(10, 10, 11, 0.95) !important;
+  border-bottom: var(--royal-border);
+  padding: 1.5rem 0;
+}
+
+.navbar-brand {
+  font-family: 'Cinzel', serif;
+  color: var(--elite-gold) !important;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* The Royal Hero Section */
+.hero {
+  padding: 120px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, #161618 0%, var(--elite-black) 100%);
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--elite-white);
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+/* Buttons: No more neon, just gold elegance */
+.btn-primary {
+  background: var(--elite-gold);
+  border: none;
+  color: var(--elite-black) !important;
+  padding: 14px 40px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 0; /* Square edges for a formal look */
+  transition: 0.4s ease;
+}
+
+.btn-primary:hover {
+  background: var(--elite-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
+}
+
+/* Elite Tool Cards */
+.tool-card {
+  background: var(--elite-gray);
+  border: var(--royal-border);
+  border-radius: 0;
+  padding: 40px 30px;
+  transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.tool-card:hover {
+  border-color: var(--elite-gold);
+  background: #121214;
+  transform: translateY(-10px);
+}
+
+.tool-icon {
+  color: var(--elite-gold);
+  font-size: 3rem;
+  margin-bottom: 20px;
+}

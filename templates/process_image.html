@@ -1,0 +1,7 @@
+elif feature == "deblur":
+    gray = cv2.cvtColor(output, cv2.COLOR_BGR2GRAY)
+    lap = cv2.Laplacian(gray, cv2.CV_64F).var()
+
+    # If image is blurry → keep original
+    if lap < 100:
+        output = img.copy()  # show original image

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 style="font-family: 'Orbitron'; color: #00f0ff;">Canny Edge Detection</h2>
+    </div>
+
+    <div class="card bg-dark border-info mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="text-white mb-2">Select Image Source:</label>
+                    <input type="file" name="file" class="form-control bg-dark text-white border-secondary" required>
+                </div>
+                <button type="submit" class="btn btn-info w-100 fw-bold">RUN NEURAL EXTRACTION</button>
+            </form>
+        </div>
+    </div>
+
+    {% if processed_img %}
+    <div class="mt-5 text-center">
+        <h4 class="text-white mb-3">Edge Map Result:</h4>
+        <img src="data:image/png;base64,{{ processed_img }}" class="img-fluid rounded border border-info shadow-lg" style="max-height: 500px;">
+        <div class="mt-3">
+            <a href="data:image/png;base64,{{ processed_img }}" download="canny_result.png" class="btn btn-outline-success">
+                <i class="fas fa-download"></i> Download Result
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Support | Zivera{% endblock %}
+
+{% block content %}
+<style>
+    .contact-page-wrapper {
+        color: #fff; 
+        font-family: 'Inter', sans-serif;
+        padding-top: 50px;
+        padding-bottom: 80px;
+    }
+
+    body { background: transparent !important; }
+
+    .contact-card {
+        background: rgba(17, 17, 17, 0.85);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 240, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .neon-text {
+        font-family: 'Orbitron', sans-serif;
+        color: #00f0ff;
+        text-shadow: 0 0 10px #00f0ff;
+    }
+
+    .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        color: #fff;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .form-select option {
+        background-color: #111;
+        color: #fff;
+    }
+
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .star-rating input { display: none; }
+
+    .star-rating label {
+        font-size: 2rem;
+        color: rgba(0, 240, 255, 0.2);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input:checked ~ label {
+        color: #00f0ff;
+        text-shadow: 0 0 15px #00f0ff;
+    }
+
+    .btn-submit {
+        background: #00f0ff;
+        color: #000;
+        font-weight: bold;
+        border: none;
+        padding: 15px;
+        border-radius: 50px;
+        width: 100%;
+        transition: 0.3s;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+        background: #fff;
+        box-shadow: 0 0 25px #00f0ff;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="contact-page-wrapper">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="neon-text">ELITE SUPPORT</h1>
+            <p class="opacity-75">Official Support: support@zivera.app</p>
+        </div>
+
+        <div class="contact-card">
+            <form action="https://formsubmit.co/mythilibakiya7@gmail.com" method="POST">
+                
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control" placeholder="support@zivera.app" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Inquiry Type</label>
+                    <select name="type" class="form-select">
+                        <option value="Feedback">General Feedback</option>
+                        <option value="Elite Support">Elite Tier Support</option>
+                        <option value="Feature Request">Feature Request</option>
+                        <option value="Bug Report">Bug Report</option>
+                    </select>
+                </div>
+
+                <div class="mb-2 text-center">
+                    <label class="form-label">Rate Your Experience</label>
+                    <div class="star-rating">
+                        <input type="radio" id="5-stars" name="rating" value="5 Stars">
+                        <label for="5-stars" class="fas fa-star"></label>
+                        <input type="radio" id="4-stars" name="rating" value="4 Stars">
+                        <label for="4-stars" class="fas fa-star"></label>
+                        <input type="radio" id="3-stars" name="rating" value="3 Stars">
+                        <label for="3-stars" class="fas fa-star"></label>
+                        <input type="radio" id="2-stars" name="rating" value="2 Stars">
+                        <label for="2-stars" class="fas fa-star"></label>
+                        <input type="radio" id="1-star" name="rating" value="1 Star">
+                        <label for="1-star" class="fas fa-star"></label>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-control" rows="4" placeholder="How can we help you?" required></textarea>
+                </div>
+
+                <input type="hidden" name="_subject" value="Zivera Support Transmission">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="{{ url_for('price') }}">
+
+                <button type="submit" class="btn-submit">SEND TRANSMISSION</button>
+            </form>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('price') }}" style="color: rgba(0,240,255,0.6); text-decoration: none;">← Back to Pricing</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing Plans | Zivera{% endblock %}
+
+{% block content %}
+<style>
+    /* Scope styles to pricing page only */
+    .pricing-page-wrapper {
+        /* REMOVED: background: #050505; to allow glitters to show through */
+        color: #fff; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 50px;
+        padding-bottom: 80px;
+    }
+    
+    /* Ensure the body is transparent for this specific view */
+    body { background: transparent !important; }
+
+    .neon-title { 
+        font-family: 'Orbitron', sans-serif;
+        color: #00f0ff; 
+        text-shadow: 0 0 20px #00f0ff; 
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
+
+    .pricing-card {
+        /* MODIFIED: Changed to rgba for transparency so glitters show behind cards */
+        background: rgba(17, 17, 17, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 240, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px 30px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-15px);
+        border-color: #00f0ff;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+        background: rgba(22, 22, 22, 0.85);
+    }
+
+    .price-tag {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3rem;
+        margin: 20px 0;
+        color: #fff;
+    }
+
+    .feature-list li {
+        margin-bottom: 15px;
+        opacity: 0.8;
+        font-size: 1.1rem;
+    }
+
+    .btn-neon {
+        border: 1px solid #00f0ff;
+        color: #00f0ff;
+        background: transparent;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-neon:hover {
+        background: #00f0ff;
+        color: #000;
+        box-shadow: 0 0 20px #00f0ff;
+    }
+
+    .pro-label {
+        background: #00f0ff;
+        color: #000;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+</style>
+
+<div class="pricing-page-wrapper">
+    <div class="container text-center">
+        <h1 class="neon-title mb-5">Select Your Tier</h1>
+        
+        <div class="row justify-content-center g-4">
+            <div class="col-md-4">
+                <div class="pricing-card h-100">
+                    <h3>Starter</h3>
+                    <div class="price-tag">₹0</div>
+                    <ul class="list-unstyled feature-list">
+                        <li>✦ 5 AI Generations</li>
+                        <li>✦ Standard Resolution</li>
+                        <li>✦ Community Support</li>
+                    </ul>
+                    <a href="{{ url_for('index') }}" class="btn-neon mt-3">Back Home</a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pricing-card h-100" style="border-width: 2px; border-color: #00f0ff;">
+                    <span class="pro-label">MOST POPULAR</span>
+                    <h3 class="text-info">Pro</h3>
+                    <div class="price-tag">₹1,599</div>
+                    <ul class="list-unstyled feature-list">
+                        <li>✦ Unlimited Generations</li>
+                        <li>✦ 4K Ultra-HD Export</li>
+                        <li>✦ Neural Scan Access</li>
+                        <li>✦ Priority Processing</li>
+                    </ul>
+                    <a href="{{ url_for('login') }}" class="btn btn-info w-100 py-3 fw-bold shadow-lg" style="border-radius: 50px; background-color: #00f0ff; color: #000; border: none;">UNLOCK PRO</a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+    <div class="pricing-card h-100">
+        <h3>Elite</h3>
+        <div class="price-tag">₹4,999</div>
+        <ul class="list-unstyled feature-list">
+            <li>✦ Custom AI Models</li>
+            <li>✦ API Access</li>
+            <li>✦ 8K Rendering</li>
+            <li>✦ 24/7 Tech Support</li>
+        </ul>
+        <a href="{{ url_for('contact') }}" class="btn-neon mt-3">Contact Sales</a>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

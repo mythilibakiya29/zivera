@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 style="font-family: 'Orbitron'; color: #00f0ff;">Watershed Segmentation</h2>
+        <p class="text-muted">Topographic object separation analysis.</p>
+    </div>
+
+    <div class="card bg-dark border-info mx-auto shadow-lg" style="max-width: 600px;">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" class="form-control bg-dark text-white border-secondary mb-3" required>
+                <button type="submit" class="btn btn-outline-info w-100 fw-bold">EXECUTE SEGMENTATION</button>
+            </form>
+        </div>
+    </div>
+
+    {% if processed_img %}
+    <div class="mt-5 text-center">
+        <h4 class="text-white mb-3" style="font-family: 'Orbitron';">SEGMENTATION MAP</h4>
+        <img src="data:image/png;base64,{{ processed_img }}" class="img-fluid rounded border border-info" style="max-height: 500px;">
+        <div class="mt-4">
+            <a href="data:image/png;base64,{{ processed_img }}" download="watershed_result.png" class="btn btn-success px-5">DOWNLOAD</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

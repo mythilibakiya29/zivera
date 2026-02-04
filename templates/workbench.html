@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zivera | Neo-Workbench</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* UNIQUE CYBER-THEME DESIGN */
+        body { background: #050505; color: #fff; height: 100vh; overflow: hidden; font-family: 'Inter', sans-serif; }
+        
+        .workbench-wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
+        
+        /* Control Panel - Left Side */
+        .control-sidebar { 
+            background: #0d0d0d; border-right: 2px solid #fb0e0e; 
+            padding: 25px; overflow-y: auto; position: relative;
+        }
+
+        .section-title { 
+            color: #fb0e0e; font-size: 0.7rem; font-weight: bold; 
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(251, 14, 14, 0.3); }
+
+        /* Control UI */
+        .ui-card { background: #161616; padding: 15px; border-radius: 4px; margin-bottom: 20px; border-left: 3px solid #fb0e0e; }
+        .form-range::-webkit-slider-thumb { background: #fb0e0e; }
+        .value-label { color: #fb0e0e; font-family: 'Orbitron'; font-size: 0.8rem; }
+
+        /* Tech Buttons */
+        .effect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .tech-btn { 
+            background: transparent; border: 1px solid #333; color: #aaa; 
+            font-size: 0.75rem; padding: 10px; transition: 0.2s; text-transform: uppercase;
+        }
+        .tech-btn:hover { border-color: #fb0e0e; color: #fff; background: rgba(251, 14, 14, 0.1); }
+
+        /* Preview Display */
+        .display-stage { 
+            background-image: radial-gradient(#111 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+        }
+        .img-container { 
+            max-width: 90%; max-height: 80vh; position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+        .img-container img { 
+            width: 100%; height: auto; border: 1px solid #222; 
+            transition: 0.1s linear; 
+        }
+
+        /* Branding Area */
+        .brand-header { margin-bottom: 30px; text-align: left; }
+        .brand-header h1 { font-size: 1.5rem; letter-spacing: 5px; color: #fff; margin: 0; }
+        .brand-header span { color: #fb0e0e; }
+    </style>
+</head>
+<body>
+    <div class="workbench-wrapper">
+        <div class="control-sidebar">
+            <div class="brand-header">
+                <h1>ZIVERA<span>.AI</span></h1>
+                <small class="text-secondary">PRO FORENSIC WORKBENCH</small>
+            </div>
+            
+            <form action="/upload" method="post" enctype="multipart/form-data" class="mb-4">
+                <input type="file" name="file" class="form-control form-control-sm bg-dark text-white border-secondary mb-2" required>
+                <button type="submit" class="btn btn-danger w-100 btn-sm fw-bold">IMPORT SCAN</button>
+            </form>
+
+            <div class="section-title">Visual Correction</div>
+            <div class="ui-card">
+                <div class="d-flex justify-content-between mb-1">
+                    <label class="small text-secondary">EXPOSURE</label>
+                    <span id="val-bright" class="value-label">100%</span>
+                </div>
+                <input type="range" class="form-range" id="bright" min="0" max="200" value="100" oninput="applyAll()">
+
+                <div class="d-flex justify-content-between mb-1 mt-3">
+                    <label class="small text-secondary">SATURATION</label>
+                    <span id="val-saturate" class="value-label">100%</span>
+                </div>
+                <input type="range" class="form-range" id="saturate" min="0" max="200" value="100" oninput="applyAll()">
+
+                <div class="d-flex justify-content-between mb-1 mt-3">
+                    <label class="small text-secondary">RESIZE SCALE</label>
+                    <span id="val-scale" class="value-label">100%</span>
+                </div>
+                <input type="range" class="form-range" id="scale" min="10" max="150" value="100" oninput="applyAll()">
+            </div>
+
+            <div class="section-title">AI Filters</div>
+            <div class="ui-card">
+                <div class="d-flex justify-content-between mb-1">
+                    <label class="small text-secondary">GAUSSIAN BLUR</label>
+                    <span id="val-blur" class="value-label">0px</span>
+                </div>
+                <input type="range" class="form-range" id="blur" min="0" max="15" value="0" oninput="applyAll()">
+
+                <div class="d-flex justify-content-between mb-1 mt-3">
+                    <label class="small text-secondary">CHROMATIC SHIFT</label>
+                    <span id="val-hue" class="value-label">0°</span>
+                </div>
+                <input type="range" class="form-range" id="hue" min="0" max="360" value="0" oninput="applyAll()">
+            </div>
+
+            <div class="section-title">Instant Presets</div>
+            <div class="effect-grid">
+                <button class="tech-btn" onclick="setPreset('grayscale(100%)')">Monochrome</button>
+                <button class="tech-btn" onclick="setPreset('sepia(100%)')">Archival</button>
+                <button class="tech-btn" onclick="setPreset('invert(100%)')">Inverse</button>
+                <button class="tech-btn" onclick="setPreset('contrast(200%) brightness(110%)')">Ultra HD</button>
+            </div>
+
+            <div class="mt-4 pt-3">
+                <button class="btn btn-outline-secondary w-100 btn-sm mb-2" onclick="resetAll()">PURGE ALL CACHE</button>
+                {% if filename %}
+                <button class="btn btn-danger w-100 fw-bold" onclick="downloadEdited()">
+                    <i class="fas fa-save me-2"></i> EXPORT FINAL
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="display-stage">
+            {% if filename %}
+                <div class="img-container" id="img-wrapper">
+                    <img src="{{ url_for('uploaded_file', filename=filename) }}" id="target-img">
+                </div>
+                <canvas id="hidden-canvas" style="display:none;"></canvas>
+            {% else %}
+                <div class="text-center" style="opacity: 0.2;">
+                    <i class="fas fa-microchip fa-6x mb-4" style="color:#fb0e0e"></i>
+                    <p style="letter-spacing: 5px;">SYSTEM STANDBY: UPLOAD REQUIRED</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        let currentPreset = "";
+
+        function applyAll() {
+            const img = document.getElementById('target-img');
+            const wrapper = document.getElementById('img-wrapper');
+            if (!img) return;
+
+            const b = document.getElementById('bright').value;
+            const s = document.getElementById('saturate').value;
+            const bl = document.getElementById('blur').value;
+            const h = document.getElementById('hue').value;
+            const sc = document.getElementById('scale').value;
+
+            // Update Labels
+            document.getElementById('val-bright').innerText = b + '%';
+            document.getElementById('val-saturate').innerText = s + '%';
+            document.getElementById('val-blur').innerText = bl + 'px';
+            document.getElementById('val-hue').innerText = h + '°';
+            document.getElementById('val-scale').innerText = sc + '%';
+
+            // Apply CSS Filters
+            img.style.filter = `${currentPreset} brightness(${b}%) saturate(${s}%) blur(${bl}px) hue-rotate(${h}deg)`;
+            
+            // Apply Dynamic Resize
+            wrapper.style.width = sc + '%';
+        }
+
+        function setPreset(filter) {
+            currentPreset = filter + " ";
+            applyAll();
+        }
+
+        function resetAll() {
+            currentPreset = "";
+            document.getElementById('bright').value = 100;
+            document.getElementById('saturate').value = 100;
+            document.getElementById('blur').value = 0;
+            document.getElementById('hue').value = 0;
+            document.getElementById('scale').value = 100;
+            applyAll();
+        }
+
+        function downloadEdited() {
+            const img = document.getElementById('target-img');
+            const canvas = document.getElementById('hidden-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Calculate actual scale dimensions for the download
+            const scaleFactor = document.getElementById('scale').value / 100;
+            canvas.width = img.naturalWidth * scaleFactor;
+            canvas.height = img.naturalHeight * scaleFactor;
+            
+            ctx.filter = img.style.filter;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            const link = document.createElement('a');
+            link.download = 'Zivera_Render_' + Date.now() + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

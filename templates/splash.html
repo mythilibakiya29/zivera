@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zivera</title>
+    <style>
+        body {
+            background: url("/static/images/drangon.jpg") center center no-repeat, rgb(15, 15, 15);
+            background-size: contain;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            letter-spacing: 8px;
+            animation: elegantFade 2.5s ease-in-out;
+            z-index: 1;
+            text-transform: uppercase;
+        }
+
+        @keyframes elegantFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <h1><span style="color:#fb0e0e;">Zivera</span></h1>
+
+    <script>
+        // Redirect to Home after 3 seconds
+        setTimeout(() => {
+            window.location.href = "/home"; 
+        }, 3000);
+    </script>
+</body>
+</html>

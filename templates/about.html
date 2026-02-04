@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="about-wrapper" style="color: white; overflow-x: hidden; padding-top: 100px; font-family: 'Inter', sans-serif;">
+    <div class="container">
+        
+        <div class="row align-items-center mb-5 pb-5 section-reveal">
+            <div class="col-md-6 anim-text-left">
+                <h2 class="display-4 fw-bold neon-blue">Shadow Recovery</h2>
+                <p class="lead opacity-75">Unveiling details hidden in the dark.</p>
+                <p>Our AI analyzes low-exposure zones to reconstruct textures without introducing noise. By joining horizontal data slices, we restore depth to crushed blacks and underexposed regions.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="medium-box horizontal-join-container shadow-glow">
+                    <div class="h-slice hs-1" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
+                    <div class="h-slice hs-2" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
+                    <div class="h-slice hs-3" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-5 pb-5 section-reveal">
+            <div class="col-md-6 order-md-2 text-md-end anim-text-right">
+                <h2 class="display-4 fw-bold neon-purple">Chroma Synthesis</h2>
+                <p class="lead">AI-Driven Color Grading.</p>
+                <p>We use neural pulse scanning to identify skin tones and environmental lighting. The system "glitters" through millions of color variants to find the perfect cinematic balance for your shot.</p>
+            </div>
+            <div class="col-md-6 order-md-1">
+                <div class="medium-box scan-container color-shift">
+                    <img src="{{ url_for('static', filename='images/robot.jpg') }}" class="medium-img" alt="Chroma Scan">
+                    <div class="scanner-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-5 pb-5 section-reveal">
+            <div class="col-md-6 anim-text-left">
+                <h2 class="display-4 fw-bold neon-blue">Texture Synthesis</h2>
+                <p class="lead">Rebuilding micro-details.</p>
+                <p>Through 3D spatial rotation, our AI understands the geometry of the face. It synthesizes skin pores, fabric weaves, and hair strands that were lost during compression.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="medium-box rotate-3d-container">
+                    <div class="glitter-sweep"></div>
+                    <img src="{{ url_for('static', filename='images/enhancer.jpg') }}" class="medium-img rotate-img" alt="Texture Refinement">
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-5 pb-5 section-reveal">
+            <div class="col-md-6 order-md-2 text-md-end anim-text-right">
+                <h2 class="display-4 fw-bold neon-purple">Edge Preservation</h2>
+                <p class="lead">Sharpness without artifacts.</p>
+                <p>The final render expands the canvas to 8K while preserving razor-sharp edges. No "halos" or jagged lines—just pure, glittering clarity ready for high-end production.</p>
+            </div>
+            <div class="col-md-6 order-md-1">
+                <div class="medium-box expansion-container">
+                    <img src="{{ url_for('static', filename='images/glass.jpg') }}" class="medium-img expansion-img" alt="Edge Final">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center py-5">
+            <a href="{{ url_for('price') }}" class="btn-glitter-premium">EXPLORE PRICING</a>
+            <div class="mt-4">
+                <a href="{{ url_for('index') }}" class="back-link">← Return to Interface</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700&display=swap');
+
+    /* Ensure body is transparent to let particles show through from base.html */
+    body { background: transparent !important; }
+
+    .neon-blue { text-shadow: 0 0 15px #00f0ff; color: #00f0ff; font-family: 'Orbitron'; }
+    .neon-purple { text-shadow: 0 0 15px #6a5aff; color: #6a5aff; font-family: 'Orbitron'; }
+    
+    /* Adjusted background to rgba(17, 17, 17, 0.7) for transparency */
+    .medium-box { width: 100%; max-width: 480px; height: 320px; margin: auto; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid rgba(0, 240, 255, 0.2); background: rgba(17, 17, 17, 0.7); backdrop-filter: blur(5px); }
+    .medium-img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* 1. HORIZONTAL JOIN */
+    .horizontal-join-container { display: flex; flex-direction: column; }
+    .h-slice { flex: 1; background-size: 100% 300%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+    .hs-1 { background-position: top; transform: translateX(-100%); }
+    .hs-2 { background-position: center; transform: translateX(100%); }
+    .hs-3 { background-position: bottom; transform: translateX(-100%); }
+    .active .h-slice { opacity: 1; transform: translateX(0); }
+
+    /* 2. SCAN BAR & GLITTER */
+    .scanner-bar { position: absolute; top: 0; width: 100%; height: 2px; background: #fff; box-shadow: 0 0 15px #00f0ff, 0 0 30px #6a5aff; opacity: 0; z-index: 2; }
+    .active .scanner-bar { opacity: 1; animation: scanAction 2s infinite ease-in-out; }
+    @keyframes scanAction { 0% { top: 0%; } 100% { top: 100%; } }
+
+    /* 3. 3D ROTATION & GLITTER SWEEP */
+    .rotate-3d-container { perspective: 1200px; }
+    .rotate-img { transform: rotateY(110deg); transition: 1.5s ease-out; opacity: 0; }
+    .active .rotate-img { transform: rotateY(0deg); opacity: 1; }
+    .glitter-sweep { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); z-index: 1; }
+    .active .glitter-sweep { animation: sweep 2s 1s forwards; }
+    @keyframes sweep { 100% { left: 150%; } }
+
+    /* 4. EXPANSION */
+    .expansion-img { transform: scale(1.5) rotate(5deg); filter: blur(20px); transition: 1.2s; }
+    .active .expansion-img { transform: scale(1) rotate(0deg); filter: blur(0); }
+
+    /* TEXT RIGGING */
+    .anim-text-left { transform: translateY(30px); opacity: 0; transition: 0.8s; }
+    .anim-text-right { transform: translateY(30px); opacity: 0; transition: 0.8s; }
+    .active.row .anim-text-left, .active.row .anim-text-right { transform: translateY(0); opacity: 1; }
+
+    /* PREMIUM BUTTON */
+    .btn-glitter-premium {
+        padding: 16px 45px; background: rgba(0,0,0,0.5); color: #00f0ff; border: 2px solid #00f0ff;
+        font-weight: bold; border-radius: 4px; text-decoration: none; transition: 0.3s;
+        box-shadow: 0 0 10px rgba(0,240,255,0.3);
+        backdrop-filter: blur(5px);
+    }
+    .btn-glitter-premium:hover { background: #00f0ff; color: #000; box-shadow: 0 0 30px #00f0ff; }
+</style>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.25 });
+
+    document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
+</script>
+{% endblock %}

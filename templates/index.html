@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zivera</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
+                        url("{{ url_for('static', filename='images/potrait.jpg') }}"); 
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #ffffff; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden;
+        }
+
+        .logo-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #000; display: flex; justify-content: center; align-items: center;
+            z-index: 9999; animation: fadeOutScreen 1s forwards 2.5s;
+        }
+
+        .logo {
+            font-size: 3.5rem; font-weight: bold; letter-spacing: 12px;
+            text-transform: uppercase; text-shadow: 0 0 20px #00d4ff;
+            opacity: 0; animation: logoEntry 1.5s ease-out forwards 0.5s;
+        }
+
+        @keyframes logoEntry { to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeOutScreen { to { opacity: 0; visibility: hidden; } }
+
+        .hero-section {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; opacity: 0; animation: contentReveal 1.2s ease-out forwards 3.2s;
+        }
+
+        .glass-box {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 212, 255, 0.3); padding: 50px;
+            border-radius: 20px; text-align: center;
+        }
+
+        .btn-enter {
+            display: inline-block; margin-top: 20px; padding: 12px 30px;
+            background: #00d4ff; color: #000; text-decoration: none;
+            font-weight: bold; border-radius: 5px; transition: 0.3s;
+        }
+        .btn-enter:hover { background: #fff; box-shadow: 0 0 20px #00d4ff; }
+
+        @keyframes contentReveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('home') }}" class="enter-btn">
+  ENTER SITE
+</a>
+<div class="output" id="output" style="display:none;">
+  <img id="resultImg">
+  <a id="downloadBtn" download>⬇ Download</a>
+</div>
+
+
+    <div class="logo-container">
+        <div class="logo">Zivera</div>
+    </div>
+    <div class="hero-section">
+        <div class="glass-box">
+            <h1>Transforming Your Photos</h1>
+            <p>With Our Cutting-Edge Image Editing Platform</p>
+            <a href="{{ url_for('home') }}" class="btn-enter">ENTER SITE</a>
+        </div>
+    </div>
+</body>
+</html>

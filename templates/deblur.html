@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="text-center mb-4">
+        <h2 style="font-family: 'Orbitron'; color: #00f0ff;">HD COMPARISON HUB</h2>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-4">
+            <div class="card bg-dark border-info shadow">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file" class="form-control bg-dark text-white border-secondary mb-3" required>
+                        <button type="submit" class="btn btn-info w-100 fw-bold">GENERATE HD VIEW</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if processed_img %}
+    <div class="row g-4 justify-content-center animate__animated animate__fadeIn">
+        
+        <div class="col-auto">
+            <div class="image-card">
+                <p class="text-muted small text-center fw-bold">ORIGINAL BLURRY</p>
+                <div class="img-frame">
+                    <img src="data:image/png;base64,{{ original_img }}" alt="Original">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="image-card">
+                <p class="text-info small text-center fw-bold">GENERATED REAL IMAGE</p>
+                <div class="img-frame highlight">
+                    <img src="data:image/png;base64,{{ processed_img }}" alt="Generated">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="data:image/png;base64,{{ processed_img }}" download="restored_hd.png" class="btn btn-success px-5">
+            DOWNLOAD GENREATED IMAGE
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Force Medium Format */
+    .img-frame {
+        height: 450px; /* Fixed medium height */
+        border: 2px solid #444;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .img-frame img {
+        height: 100%; /* Scale image to match frame height */
+        width: auto;
+        display: block;
+    }
+
+    .img-frame.highlight {
+        border-color: #00f0ff;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .image-card {
+        background: rgba(255,255,255,0.05);
+        padding: 10px;
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}

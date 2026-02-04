@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 style="font-family: 'Orbitron'; color: #00f0ff;">Harris Corner Detection</h2>
+    </div>
+
+    <div class="card bg-dark border-info mx-auto shadow-lg" style="max-width: 600px;">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="text-info small mb-2" style="font-family: 'Orbitron';">UPLOAD IMAGE FOR ANALYSIS:</label>
+                    <input type="file" name="file" class="form-control bg-dark text-white border-secondary" required>
+                </div>
+                <button type="submit" class="btn btn-info w-100 fw-bold">RUN CORNER EXTRACTION</button>
+            </form>
+        </div>
+    </div>
+
+    {% if processed_img %}
+    <div class="mt-5 text-center">
+        <h4 class="text-white mb-3" style="font-family: 'Orbitron';">RESULT DETECTED</h4>
+        
+        <img src="data:image/png;base64,{{ processed_img }}" class="img-fluid rounded border border-info shadow-lg" style="max-height: 500px;">
+        
+        <div class="mt-4">
+            <a href="data:image/png;base64,{{ processed_img }}" download="harris_corners.png" class="btn btn-success px-5 py-2">
+                <i class="fas fa-download me-2"></i> DOWNLOAD IMAGE
+            </a>
+            
+            <a href="{{ url_for('index') }}" class="btn btn-outline-light ms-2">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

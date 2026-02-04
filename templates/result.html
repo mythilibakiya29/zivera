@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Image - Pixel Perfection{% endblock %}
+
+{% block content %}
+
+<section class="editor-section">
+  <div class="container">
+    <div class="editor-header">
+      <h1>Editing Your Image</h1>
+      <div class="actions">
+        <a href="{{ url_for('upload') }}" class="btn-outline">Upload New</a>
+        <a href="{{ url_for('uploaded_file', filename=filename) }}" download class="btn-primary">Download</a>
+      </div>
+    </div>
+
+    <div class="preview-area">
+      <div class="original">
+        <h3>Original</h3>
+        <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Original">
+      </div>
+
+      <div class="processed" id="processed-view">
+        <h3>Processed</h3>
+        {% if processed %}
+          <img src="{{ url_for('uploaded_file', filename=processed) }}" alt="Result">
+        {% else %}
+          <p>No edits applied yet — choose an action below</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <form method="post" action="{{ url_for('process', filename=filename) }}" class="tool-buttons">
+        <button type="submit" name="action" value="remove_bg" class="tool-btn">Remove Background</button>
+        <button type="submit" name="action" value="edge" class="tool-btn">Edge Detection</button>
+        <button type="submit" name="action" value="enhance" class="tool-btn">Auto Enhance</button>
+        <button type="submit" name="action" value="rotate" class="tool-btn">Rotate 90°</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

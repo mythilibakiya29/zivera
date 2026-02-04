@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remove Background</title>
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        .box {
+            margin: 40px auto;
+            width: 420px;
+            padding: 30px;
+            background: #1b1b1b;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
+        }
+
+        input, button {
+            width: 100%;
+            margin: 12px 0;
+            height: 45px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        button {
+            background: #00d4ff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 10px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Remove Background</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Remove Background</button>
+    </form>
+
+    {% if output_image %}
+        <img src="/{{ output_image }}">
+        <br><br>
+        <a href="/download-bg">
+            <button>Download PNG</button>
+        </a>
+    {% endif %}
+</div>
+
+</body>
+</html>
+

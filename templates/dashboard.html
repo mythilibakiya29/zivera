@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* ===== DASHBOARD ===== */
+.dashboard-wrapper {
+    min-height: 100vh;
+    padding: 90px 60px 140px;
+    background: radial-gradient(circle at top, #1c1f4a, #070717);
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.dashboard-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png");
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* HEADER */
+.dashboard-header h1 {
+    font-size: 3.2rem;
+    background: linear-gradient(90deg, #00f5ff, #7cf3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-header p {
+    max-width: 600px;
+    opacity: 0.85;
+    margin-top: 14px;
+}
+
+/* HERO */
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 80px;
+    align-items: center;
+}
+
+/* AI PREVIEW */
+.ai-preview {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    animation: waveFloat 5s ease-in-out infinite;
+}
+
+.ai-preview img {
+    width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+}
+
+@keyframes waveFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-22px); }
+    100% { transform: translateY(0px); }
+}
+
+/* FEATURES GRID */
+.features {
+    margin-top: 140px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px);
+    padding: 32px;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-14px);
+    box-shadow: 0 25px 60px rgba(0,245,255,0.25);
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+/* BUTTON */
+.primary-btn {
+    margin-top: 30px;
+    padding: 14px 34px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00f5ff, #0077ff);
+    color: #000;
+    font-weight: 600;
+}
+
+/* MENU */
+.menu-btn {
+    position: fixed;
+    top: 22px;
+    right: 30px;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-dropdown {
+    position: fixed;
+    top: 60px;
+    right: 30px;
+    background: rgba(20,20,40,0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    min-width: 180px;
+    z-index: 1001;
+}
+
+.menu-dropdown a {
+    padding: 14px 18px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu-dropdown a:hover {
+    background: rgba(255,255,255,0.08);
+}
+</style>
+
+<!-- MENU -->
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div class="menu-dropdown" id="menu">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/upload">Upload</a>
+    <a href="/logout">Logout</a>
+    <a href="/about" class="upload-btn">About MB Enhancio</a>
+
+</div>
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
+<div class="dashboard-wrapper">
+<a href="/login" class="upload-btn">
+    More Details
+</a>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-container">
+    <!-- ALL dashboard cards here -->
+</div>
+
+{% endblock %}
+
+    <div class="dashboard-header">
+        <h1>Welcome to MB Enhancio</h1>
+        <p>Professional AI image enhancement inspired by next-gen creative tools.</p>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div>
+            <p>
+                Transform images using intelligent AI models.
+                Upscale, enhance, remove noise and backgrounds —
+                all in one cinematic workflow.
+            </p>
+
+            <!-- ONLY PLACE LOGIN OPENS -->
+            <button class="primary-btn" onclick="location.href='/login'">
+                More Details
+            </button>
+        </div>
+
+        <div class="ai-preview">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe">
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features">
+        <div class="feature-card">
+            <h3>AI Upscale</h3>
+            <p>Recover details and increase resolution without quality loss.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Smart Retouch</h3>
+            <p>Professional noise removal and texture preservation.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Background AI</h3>
+            <p>Instant background removal and scene isolation.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+</script>
+
+{% endblock %}

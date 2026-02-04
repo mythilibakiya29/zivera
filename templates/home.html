@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero text-center" style="padding-top: 100px; padding-bottom: 50px; background: transparent;">
+  <div class="container" style="background: transparent;">
+    
+    <div class="puzzle-main-wrapper mx-auto mb-5 float-animation">
+      <img src="{{ url_for('static', filename='images/robot.jpg') }}" alt="Final" class="puzzle-final-result">
+      
+      <div class="puzzle-grid-layer">
+        {% for i in range(100) %}
+        <div class="p-block block-{{ i }}" style="background-image: url('{{ url_for('static', filename='images/robot.jpg') }}');"></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="text-content" style="animation: fadeInUp 1s ease forwards 4.2s; opacity: 0;">
+      <h1 class="display-3 fw-bold mb-3 neon-text">Zivera</h1>
+      <p class="lead fs-4 mb-4 opacity-75" style="color: white;">Advanced AI Photo Editing & Generation</p>
+      
+      <div class="d-flex justify-content-center gap-3">
+        <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg px-5 shadow-lg" style="background-color: #00f0ff; border: none; color: black; font-family: 'Orbitron';">Open Image</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-5" style="font-family: 'Orbitron';">Start Blank</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+    /* Floating Keyframes */
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+    }
+    .float-animation {
+        animation: float 6s ease-in-out infinite 4s; /* Starts after puzzle joins */
+    }
+
+    .puzzle-main-wrapper { 
+        position: relative; 
+        width: 700px; 
+        height: 500px; 
+        perspective: 1200px;
+        /* Added a slight glow to help it pop against the glitter */
+        filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+    }
+    
+    .neon-text { 
+        font-family: 'Orbitron'; 
+        color: white; 
+        text-shadow: 0 0 20px rgba(0, 240, 255, 0.6); 
+    }
+    
+    .puzzle-final-result {
+        width: 100%; height: 100%; border-radius: 15px;
+        opacity: 0; animation: revealFinal 0.8s ease-in forwards 3.8s;
+        box-shadow: 0 0 60px rgba(0, 240, 255, 0.2);
+    }
+    
+    .puzzle-grid-layer {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr);
+        pointer-events: none;
+    }
+    
+    .p-block {
+        width: 100.5%; height: 100.5%; background-size: 700px 500px;
+        border: 0.1px solid rgba(255,255,255,0.05);
+        animation: blockJoin 3.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    }
+
+    @keyframes blockJoin {
+        0% { opacity: 0; transform: translate3d(var(--x), var(--y), var(--z)) rotateX(var(--rx)) rotateY(var(--ry)); }
+        100% { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+    }
+    @keyframes revealFinal { to { opacity: 1; } }
+    @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    {% for r in range(10) %}
+      {% for c in range(10) %}
+        {% set idx = (r * 10) + c %}
+        .block-{{ idx }} {
+            background-position: {{ c * 11.11 }}% {{ r * 11.11 }}%;
+            --x: {{ range(-1500, 1500) | random }}px; --y: {{ range(-1500, 1500) | random }}px;
+            --z: {{ range(500, 2000) | random }}px; --rx: {{ range(-720, 720) | random }}deg; --ry: {{ range(-720, 720) | random }}deg;
+        }
+      {% endfor %}
+    {% endfor %}
+</style>
+{% endblock %}
