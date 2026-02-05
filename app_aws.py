@@ -30,9 +30,6 @@ sns = boto3.client('sns', region_name=REGION)
 
 # DynamoDB Tables
 users_table = dynamodb.Table('Users')
-admin_users_table = dynamodb.Table('AdminUsers')
-projects_table = dynamodb.Table('Projects')
-enrollments_table = dynamodb.Table('Enrollments')
 
 # File Upload Config
 UPLOAD_FOLDER = 'static/uploads'
