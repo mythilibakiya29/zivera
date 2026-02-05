@@ -17,30 +17,19 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'forensic-secure-key-2026')
 
 # --- AWS CONFIGURATION ---
-REGION = 'us-east-1' 
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:604665149129:aws_capstone_topic' 
-S3_BUCKET_NAME = 'YOUR_S3_BUCKET_NAME' # Update this with your bucket name
+REGION = 'us-east-1'
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:604665149129:aws_capstone_topic'
+S3_BUCKET_NAME = 'YOUR_S3_BUCKET_NAME'   # MUST EXIST IN AWS CONSOLE
 
-# Clients
-s3_client = boto3.client(
-    's3',
-    region_name=REGION,
-    aws_access_key_id='YOUR_ACCESS_KEY',
-    aws_secret_access_key='YOUR_SECRET_KEY'
-)
-
-dynamodb = boto3.resource(
-    'dynamodb',
-    region_name=REGION,
-    aws_access_key_id='YOUR_ACCESS_KEY',
-    aws_secret_access_key='YOUR_SECRET_KEY'
-)
+# --- AWS CLIENTS (IAM ROLE / ENV BASED – FULL ACCESS) ---
+s3_client = boto3.client('s3', region_name=REGION)
+dynamodb = boto3.resource('dynamodb', region_name=REGION)
 sns = boto3.client('sns', region_name=REGION)
 
-# DynamoDB Tables
+# --- DYNAMODB TABLES ---
 users_table = dynamodb.Table('Users')
 
-# File Upload Config
+# --- FILE UPLOAD CONFIG ---
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -62,18 +51,22 @@ def load_user(username):
 
 def send_notification(subject, message):
     try:
-        sns.publish(TopicArn=SNS_TOPIC_ARN, Subject=subject, Message=message)
+        sns.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Subject=subject,
+            Message=message
+        )
     except Exception as e:
         print(f"SNS Error: {e}")
 
-# --- AUTH & NAVIGATION ROUTES ---
+# --- ROUTES ---
 @app.route('/')
 def splash():
     return render_template('splash.html')
 
 @app.route('/home', endpoint='home')
 @app.route('/index', endpoint='index')
-def home(): 
+def home():
     return render_template('home.html')
 
 @app.route('/about')
@@ -81,11 +74,11 @@ def about():
     return render_template('about.html')
 
 @app.route('/price')
-def price(): 
+def price():
     return render_template('price.html')
 
 @app.route('/contact')
-def contact(): 
+def contact():
     return render_template('contact.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -93,13 +86,20 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
         response = users_table.get_item(Key={'username': username})
         if 'Item' in response:
             flash("User already exists!", "warning")
             return redirect(url_for('signup'))
-        users_table.put_item(Item={'username': username, 'password': password})
-        send_notification("New User Signup", f"User {username} has signed up.")
+
+        users_table.put_item(Item={
+            'username': username,
+            'password': password
+        })
+
+        send_notification("New User Signup", f"User {username} signed up.")
         return redirect(url_for('login'))
+
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -107,24 +107,17 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
         response = users_table.get_item(Key={'username': username})
         if 'Item' in response and response['Item']['password'] == password:
-            user_obj = User(username)
-            login_user(user_obj)
+            login_user(User(username))
             session['username'] = username
-            send_notification("User Login", f"User {username} has logged in.")
+            send_notification("User Login", f"{username} logged in.")
             return redirect(url_for('workbench'))
-        flash("Invalid credentials!", "danger")
-    return render_template('login.html')
 
-@app.route('/user_dashboard', endpoint='user_dashboard')
-@login_required
-def user_dashboard_view():
-    username = session.get('username')
-    # Assuming enrollments_table and projects_table are defined elsewhere as per your original logic
-    # Adding placeholders to prevent crash
-    my_projects = [] 
-    return render_template('home.html', username=username, my_projects=my_projects)
+        flash("Invalid credentials!", "danger")
+
+    return render_template('login.html')
 
 @app.route('/logout')
 @login_required
@@ -133,36 +126,35 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-# --- WORKBENCH & IMAGE TECHNIQUES ---
-
-@app.route('/workbench', methods=['GET', 'POST'], endpoint='workbench')
+# --- WORKBENCH ---
+@app.route('/workbench', methods=['GET', 'POST'])
 @login_required
 def workbench():
     filename = request.args.get('filename')
-    if request.method == 'POST':
-        if 'file' in request.files:
-            file = request.files['file']
-            if file.filename != '':
-                filename = secure_filename(file.filename)
-                local_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(local_path)
-                
-                # --- S3 UPLOAD LOGIC ---
-                try:
-                    s3_client.upload_file(local_path, S3_BUCKET_NAME, filename)
-                    flash(f"File uploaded to S3: {filename}", "success")
-                except ClientError as e:
-                    flash(f"S3 Upload Error: {e}", "danger")
-                
-                return render_template('workbench.html', filename=filename)
+
+    if request.method == 'POST' and 'file' in request.files:
+        file = request.files['file']
+        if file.filename:
+            filename = secure_filename(file.filename)
+            local_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(local_path)
+
+            try:
+                s3_client.upload_file(local_path, S3_BUCKET_NAME, filename)
+                flash("File uploaded to S3 successfully", "success")
+            except ClientError as e:
+                flash(f"S3 Error: {e}", "danger")
+
     return render_template('workbench.html', filename=filename)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# --- IMAGE UTILS ---
 def get_cv_img(file):
     return cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
+
 
 # (All other forensic routes: deblur, canny, otsu, harris, watershed, hough, wiener remain unchanged)
 
