@@ -18,7 +18,7 @@ app.secret_key = os.environ.get('SECRET_KEY', 'forensic-secure-key-2026')
 
 # --- AWS CONFIGURATION ---
 REGION = 'us-east-1'
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:604665149129:aws_capstone_topic'
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:443370707420:project_pixel'
 S3_BUCKET_NAME = 'YOUR_S3_BUCKET_NAME'   # MUST EXIST IN AWS CONSOLE
 
 # --- AWS CLIENTS (IAM ROLE / ENV BASED – FULL ACCESS) ---
