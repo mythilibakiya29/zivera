@@ -23,7 +23,8 @@ S3_BUCKET_NAME = 'YOUR_S3_BUCKET_NAME'   # MUST EXIST IN AWS CONSOLE
 
 # --- AWS CLIENTS (IAM ROLE / ENV BASED – FULL ACCESS) ---
 s3_client = boto3.client('s3', region_name=REGION)
-dynamodb = boto3.resource('dynamodb', region_name=REGION)
+dynamodb = boto3.resource("dynamodb")
+
 sns = boto3.client('sns', region_name=REGION)
 
 # --- DYNAMODB TABLES ---
