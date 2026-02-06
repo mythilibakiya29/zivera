@@ -134,7 +134,6 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-# --- WORKBENCH ---
 @app.route('/workbench', methods=['GET', 'POST'], endpoint='upload')
 @login_required
 def workbench():
@@ -154,6 +153,7 @@ def workbench():
                 flash(f"S3 Error: {e}", "danger")
 
     return render_template('workbench.html', filename=filename)
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
