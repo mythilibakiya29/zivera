@@ -135,7 +135,7 @@ def logout():
     return redirect(url_for('index'))
 
 # --- WORKBENCH ---
-@app.route('/workbench', methods=['GET', 'POST'])
+@app.route('/workbench', methods=['GET', 'POST'], endpoint='upload')
 @login_required
 def workbench():
     filename = request.args.get('filename')
