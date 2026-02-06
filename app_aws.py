@@ -8,6 +8,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from botocore.exceptions import ClientError
+from werkzeug.security import check_password_hash
+
 
 # Forensic Libraries
 from skimage import restoration, img_as_float, img_as_ubyte
@@ -91,13 +93,15 @@ def signup():
 
         response = users_table.get_item(Key={'email': email})
         if 'Item' in response:
-            flash("User already exists!", "warning")
-            return redirect(url_for('signup'))
+    user = response['Item']
+    if check_password_hash(user['password'], password):
+        login_user(User(email))
+        session['username'] = email
+        send_notification("User Login", f"{email} logged in.")
+        return redirect(url_for('workbench'))
 
-        users_table.put_item(Item={
-            'email': email,
-            'password': password
-        })
+flash("Invalid credentials!", "danger")
+
 
         send_notification("New User Signup", f"User {email} signed up.")
         return redirect(url_for('login'))
