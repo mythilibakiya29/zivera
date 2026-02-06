@@ -11,14 +11,13 @@
                 <p>Our AI analyzes low-exposure zones to reconstruct textures without introducing noise. By joining horizontal data slices, we restore depth to crushed blacks and underexposed regions.</p>
             </div>
             <div class="col-md-6">
-                <div class="medium-box horizontal-join-container shadow-glow">
-                    <div class="h-slice hs-1" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
-                    <div class="h-slice hs-2" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
-                    <div class="h-slice hs-3" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
-                </div>
+            <div class="medium-box horizontal-join-container shadow-glow">
+                <div class="h-slice hs-1" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
+                <div class="h-slice hs-2" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
+                <div class="h-slice hs-3" style="background-image: url('{{ url_for('static', filename='images/girl.jpg') }}');"></div>
             </div>
         </div>
-
+    </div>
         <div class="row align-items-center mb-5 pb-5 section-reveal">
             <div class="col-md-6 order-md-2 text-md-end anim-text-right">
                 <h2 class="display-4 fw-bold neon-purple">Chroma Synthesis</h2>
@@ -27,7 +26,7 @@
             </div>
             <div class="col-md-6 order-md-1">
                 <div class="medium-box scan-container color-shift">
-                    <img src="{{ url_for('static', filename='images/robot.jpg') }}" class="medium-img" alt="Chroma Scan">
+                    <img src="{{ url_for('static', filename='images/ai_girl.jpg') }}" class="medium-img" alt="Chroma Scan">
                     <div class="scanner-bar"></div>
                 </div>
             </div>
@@ -42,7 +41,7 @@
             <div class="col-md-6">
                 <div class="medium-box rotate-3d-container">
                     <div class="glitter-sweep"></div>
-                    <img src="{{ url_for('static', filename='images/enhancer.jpg') }}" class="medium-img rotate-img" alt="Texture Refinement">
+                    <img src="{{ url_for('static', filename='images/forensic.jpg') }}" class="medium-img rotate-img" alt="Texture Refinement">
                 </div>
             </div>
         </div>
@@ -55,7 +54,7 @@
             </div>
             <div class="col-md-6 order-md-1">
                 <div class="medium-box expansion-container">
-                    <img src="{{ url_for('static', filename='images/glass.jpg') }}" class="medium-img expansion-img" alt="Edge Final">
+                    <img src="{{ url_for('static', filename='images/ultra.jpg') }}" class="medium-img expansion-img" alt="Edge Final">
                 </div>
             </div>
         </div>
