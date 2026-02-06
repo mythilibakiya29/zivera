@@ -63,6 +63,7 @@ def price():
 def contact(): 
     return render_template('contact.html')
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
