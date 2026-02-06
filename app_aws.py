@@ -43,11 +43,12 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 @login_manager.user_loader
-def load_user(username):
-    response = users_table.get_item(Key={'username': username})
+def load_user(email):
+    response = users_table.get_item(Key={'email': email})
     if 'Item' in response:
-        return User(username=response['Item']['username'])
+        return User(email)
     return None
+
 
 def send_notification(subject, message):
     try:
@@ -84,20 +85,20 @@ def contact():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-        response = users_table.get_item(Key={'username': username})
+        response = users_table.get_item(Key={'email': email})
         if 'Item' in response:
             flash("User already exists!", "warning")
             return redirect(url_for('signup'))
 
         users_table.put_item(Item={
-            'username': username,
+            'email': email,
             'password': password
         })
 
-        send_notification("New User Signup", f"User {username} signed up.")
+        send_notification("New User Signup", f"User {email} signed up.")
         return redirect(url_for('login'))
 
     return render_template('signup.html')
@@ -105,19 +106,21 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-        response = users_table.get_item(Key={'username': username})
+        response = users_table.get_item(Key={'email': email})
+
         if 'Item' in response and response['Item']['password'] == password:
-            login_user(User(username))
-            session['username'] = username
-            send_notification("User Login", f"{username} logged in.")
+            login_user(User(email))
+            session['username'] = email
+            send_notification("User Login", f"{email} logged in.")
             return redirect(url_for('workbench'))
 
         flash("Invalid credentials!", "danger")
 
     return render_template('login.html')
+
 
 @app.route('/logout')
 @login_required
