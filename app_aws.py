@@ -101,10 +101,8 @@ def signup():
         return redirect(url_for('workbench'))
 
 flash("Invalid credentials!", "danger")
-
-
-        send_notification("New User Signup", f"User {email} signed up.")
-        return redirect(url_for('login'))
+send_notification("New User Signup", f"User {email} signed up.")
+eturn redirect(url_for('login'))
 
     return render_template('signup.html')
 
