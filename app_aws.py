@@ -93,19 +93,13 @@ def signup():
 
         response = users_table.get_item(Key={'email': email})
         if 'Item' in response:
-    user = response['Item']
+            user = response['Item']
     if check_password_hash(user['password'], password):
         login_user(User(email))
         session['username'] = email
         send_notification("User Login", f"{email} logged in.")
         return redirect(url_for('workbench'))
-
-flash("Invalid credentials!", "danger")
-send_notification("New User Signup", f"User {email} signed up.")
-eturn redirect(url_for('login'))
-
-    return render_template('signup.html')
-
+        return render_template('signup.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
